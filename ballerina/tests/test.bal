@@ -17,30 +17,35 @@ import ballerina/test;
 import ballerina/io;
 
 configurable ApiKeysConfig apiKeyConfig = ?;
+configurable string serviceUrl = "https://api.temenos.com/api/v4.0.0/";
+configurable string customerId = "66052";
 
-final Client temenos = check new (apiKeyConfig);
+ConnectionConfig config = {
+    auth: apiKeyConfig
+};
+
+final Client temenos = check new Client(config, serviceUrl);
 
 @test:Config {}
-isolated function testGetCustomers() returns error? {
-    CustomerInformationResponse|error response = temenos->/customers.get();
-    if response is CustomerInformationResponse {
+isolated function testGetHoldings() returns error? {
+    CustomerHoldingsResponse|error response = temenos->/holdings.get();
+    if response is CustomerHoldingsResponse {
         io:println("Success Response: ", response);
-        test:assertTrue(true, "Successfully retrieved customer information");
+        test:assertTrue(true, "Successfully retrieved holdings");
     } else {
         io:println("Error Response: ", response.message());
-        test:assertFail("Failed to retrieve customers: " + response.message());
+        test:assertFail("Failed to retrieve holdings: " + response.message());
     }
 }
 
 @test:Config {}
-isolated function testGetCustomerDetails() returns error? {
-    string customerId = "66052"; // Replace with a valid customerId from GET /customers response
-    CustomerResponse|error response = temenos->/customers/[customerId].get();
-    if response is CustomerResponse {
-        io:println("Success Response for Customer Details: ", response);
-        test:assertTrue(true, "Successfully retrieved customer details for ID: " + customerId);
+isolated function testGetCustomerHoldings() returns error? {
+    CustomerHoldingsResponse|error response = temenos->/holdings/customers/[customerId]/holdings.get();
+    if response is CustomerHoldingsResponse {
+        io:println("Success Response: ", response);
+        test:assertTrue(true, "Successfully retrieved customer holdings");
     } else {
-        io:println("Error Response for Customer Details: ", response.message());
-        test:assertFail("Failed to retrieve customer details for ID " + customerId + ": " + response.message());
+        io:println("Error Response: ", response.message());
+        test:assertFail("Failed to retrieve customer holdings: " + response.message());
     }
 }

@@ -1,12 +1,12 @@
 [package]
 distribution = "2201.12.0"
 org = "ballerinax"
-name = "TemenosCustomerOnboarding"
+name = "temenosListofHoldings"
 version = "0.1.0"
 license = ["Apache-2.0"]
 authors = ["iamSahdoon"]
-keywords = ["banking", "temenos", "api"]
-repository = "https://github.com/iamSahdoon/module-ballerinax-temenos"
+keywords = ["banking", "temenos", "api" , "listofholdings"]
+repository = "https://github.com/iamSahdoon/module-ballerinax-temenosListofHoldings"
 
 [build-options]
 observabilityIncluded = true
